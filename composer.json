@@ -1,0 +1,19 @@
+{
+    "name": "jackdou/php-model-generator",
+    "description": "php db model object generator",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Jackdou\\PhpModelGenerator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jackdou",
+            "email": "jackdoujiang@qq.com"
+        }
+    ],
+    "require": {},
+    "bin": "php-gen"
+}
