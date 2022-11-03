@@ -27,6 +27,7 @@ class Database
         $password = $cfg->get('password');
         try {
             $this->pdo = new PDO($dsn, $user, $password);
+            $this->pdo->exec("SET NAMES utf8");
         } catch(\Exception $e) {
             throw new \Exception("sorry,connect to mysql fail:" . $e->getMessage());
         }
@@ -42,14 +43,15 @@ class Database
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function fetchAll($sql)
+    public function fetchAll($sql, $fetch_style = PDO::FETCH_ASSOC)
     {
         $stmt = $this->pdo->prepare($sql);
         $r = $stmt->execute();
         if (!$r) {
+            print_r($stmt->errorInfo());
             throw new \Exception("execute fail:" . $stmt->errorCode());
         }
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll($fetch_style);
     }
 
     private function __construct()

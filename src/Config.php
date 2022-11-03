@@ -36,7 +36,9 @@ class Config
             if (empty($c)) {
                 continue;
             }
-            list($k, $v) = explode('=', $c);
+            $equal = strpos($c, '=');
+            $k = substr($c, 0, $equal);
+            $v = substr($c, $equal + 1);
             $this->container[trim($k)] = trim($v);
         }
         return $this;
