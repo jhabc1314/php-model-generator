@@ -48,7 +48,6 @@ class Database
         $stmt = $this->pdo->prepare($sql);
         $r = $stmt->execute();
         if (!$r) {
-            print_r($stmt->errorInfo());
             throw new \Exception("execute fail:" . $stmt->errorCode());
         }
         return $stmt->fetchAll($fetch_style);

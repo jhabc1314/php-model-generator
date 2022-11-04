@@ -11,4 +11,5 @@ class Constant
     const VAR_NAME = 16;
 
     const CLASS_MODE_UCFIRST = 1;
+    const CLASS_MODE_UNDERLINE = 2;
 }

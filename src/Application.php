@@ -39,26 +39,15 @@ class Application
         if (!is_dir($path)) {
             $r = mkdir($path, 0755, true);
             if (!$r) {
-                throw new \Exception("sorry, I cant create the path:[{$path}].");
+                throw new \Exception("sorry, I can't create the path:[{$path}].");
             }
         }
-        // 生成基类文件
-        $this->class_name = 'BaseStruct';
-        $base = new Base;
-        $base = $this->inspect($base);
-        file_put_contents($path . '/' . 'BaseStruct1.php', $base->gender());
+        $this->genBase($path, $file_name_tail);
+
         $tables = Database::instance()->fetchAll('SHOW TABLES', PDO::FETCH_COLUMN);
         foreach ($tables as $table) {
             $this->table = $table;
-
-            $this->class_name = '';
-            if ($class_mode == Constant::CLASS_MODE_UCFIRST) {
-                $table_words = explode('_', $table);
-                foreach ($table_words as $w) {
-                    $this->class_name .= ucfirst($w);
-                }
-                $this->class_name .= $file_name_tail;
-            }
+            $this->class_name = $this->genClassName($table, $class_mode, $file_name_tail);
             if (in_array($table, $includes) && !in_array($table, $excludes)) {
                 $content = '';
                 // 生成文件
@@ -66,9 +55,19 @@ class Application
                 $content .= $this->genProperty();
                 $content .= $this->genFunc();
                 $content .= $this->genTail();
-                file_put_contents($path . '/' . $this->class_name . '.php', $content);
+                $this->createFile($content, $path);
             }
         }
+    }
+
+    protected function genBase(string $path, string $file_name_tail)
+    {
+        // 生成基类文件
+        $mode = Config::instance()->get('class_name_mode', Constant::CLASS_MODE_UCFIRST);
+        $this->class_name = $this->genClassName('Base', $mode, $file_name_tail);
+        $base = new Base;
+        $base = $this->inspect($base);
+        $this->createFile($base->gender(), $path);
     }
 
     protected function genHeader()
@@ -133,5 +132,31 @@ class Application
             }
         }
         return $com;
+    }
+
+    private function genClassName(string $src_name, int $mode, string $file_name_tail)
+    {
+        $n = '';
+        switch ($mode) {
+            case Constant::CLASS_MODE_UCFIRST:
+                $words = explode('_', $src_name);
+                foreach ($words as $w) {
+                    $n .= ucfirst($w);
+                }
+                $n .= $file_name_tail;
+                return $n;
+            default:
+                return $src_name;
+        }
+    }
+
+    private function createFile($content, $path)
+    {
+        $file = $path . sprintf('/%s.php', $this->class_name);
+        $jump_exists = Config::instance()->get('jump_exists', true);
+        if ($jump_exists && file_exists($file)) {
+            return true;
+        }
+        return file_put_contents($file, $content);
     }
 }

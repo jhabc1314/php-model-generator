@@ -27,7 +27,7 @@ class Config
     public function parse(string $cfgFile)
     {
         if (!file_exists($cfgFile)) {
-            throw new \Exception("sorry,I cant find this config file: [{$cfgFile}].");
+            throw new \Exception("sorry,I can't find this config file: [{$cfgFile}].");
         }
         // TODO 根据配置文件使用不同的适配器
         $fp = fopen($cfgFile, 'r');
