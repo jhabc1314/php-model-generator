@@ -11,7 +11,7 @@ class %s
      *
      * @return static|null
      */
-    public static function scan(array \$row): ?array
+    public static function scan(array $row): ?array
     {
         $call = new static();
         $vars = get_class_vars(static::class);
