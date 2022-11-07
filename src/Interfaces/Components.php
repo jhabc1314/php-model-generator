@@ -11,7 +11,7 @@ interface Components
      * 
      * @return void
      */
-    public function setParams(int $type, $arg);
+    public function setParams(int $type, string $arg);
     
     /**
      * 生成内容

@@ -2,39 +2,31 @@
 
 namespace Jackdou\PhpModelGenerator\Components;
 
-use Jackdou\PhpModelGenerator\Constant;
 use Jackdou\PhpModelGenerator\Interfaces\Components;
+use const Jackdou\PhpModelGenerator\CLASS_NAME;
+use const Jackdou\PhpModelGenerator\NAME_SPACE;
 
 class Header implements Components
 {
     private $namespace;
     private $classname;
-    public function setParams(int $type, $args)
+    public function setParams(int $type, string $arg)
     {
-        if ($type == Constant::CLASS_NAME) {
-            $this->classname = $args;
-        } elseif ($type == Constant::NAME_SPACE) {
-            $this->namespace = $args;
+        if ($type == CLASS_NAME) {
+            $this->classname = $arg;
+        } elseif ($type == NAME_SPACE) {
+            $this->namespace = $arg;
         }
     }
 
     public function getParamsType(): int
     {
-        return Constant::CLASS_NAME | Constant::NAME_SPACE;
+        return CLASS_NAME | NAME_SPACE;
     }
 
     public function gender(): string
     {
-        return sprintf(<<<EOF
-<?php
-
-namespace %s;
-
-use ArrayAccess;
-
-class %s extends BaseStruct implements ArrayAccess
-{
-
-EOF, $this->namespace, $this->classname);
+        $tpl = SRC_PATH . '/template/HeaderTemplate.tpl';
+        return sprintf(file_get_contents($tpl), $this->namespace, $this->classname, $this->classname, $this->classname);
     }
 }

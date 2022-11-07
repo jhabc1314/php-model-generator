@@ -4,12 +4,12 @@
 use Jackdou\PhpModelGenerator\Application;
 
 require __DIR__ . '/vendor/autoload.php';
-
+require __DIR__ . '/src/Constant.php';
 // 获取参数
 $cfgFile = $argv[1] ?? '';
 if (!$cfgFile) {
     echo "please input the config file path." . PHP_EOL;
     die;
 }
-
+const SRC_PATH = __DIR__ . '/src';
 (new Application($cfgFile))->run();

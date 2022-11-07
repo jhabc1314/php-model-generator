@@ -34,7 +34,7 @@ class Application
         $exclude = Config::instance()->get('exclude');
         $excludes = explode(',', $exclude);
         $path = Config::instance()->get('path');
-        $class_mode = Config::instance()->get('class_name_mode', Constant::CLASS_MODE_UCFIRST);
+        $class_mode = Config::instance()->get('class_name_mode', CLASS_MODE_UCFIRST);
         $file_name_tail = Config::instance()->get('file_name_tail', 'Struct');
         if (!is_dir($path)) {
             $r = mkdir($path, 0755, true);
@@ -63,7 +63,7 @@ class Application
     protected function genBase(string $path, string $file_name_tail)
     {
         // 生成基类文件
-        $mode = Config::instance()->get('class_name_mode', Constant::CLASS_MODE_UCFIRST);
+        $mode = Config::instance()->get('class_name_mode', CLASS_MODE_UCFIRST);
         $this->class_name = $this->genClassName('Base', $mode, $file_name_tail);
         $base = new Base;
         $base = $this->inspect($base);
@@ -113,20 +113,20 @@ class Application
         for ($i = 1; $i <= $t; $i++) {
             if (($i & $t) == $i) { // 001 & 011 == 001 
                 switch ($i) {
-                    case Constant::CLASS_NAME:
-                        $com->setParams(Constant::CLASS_NAME, $this->class_name);
+                    case CLASS_NAME:
+                        $com->setParams(CLASS_NAME, $this->class_name);
                         break;
-                    case Constant::NAME_SPACE:
-                        $com->setParams(Constant::NAME_SPACE, $this->namespace);
+                    case NAME_SPACE:
+                        $com->setParams(NAME_SPACE, $this->namespace);
                         break;
-                    case Constant::VAR_NAME:
-                        $com->setParams(Constant::VAR_NAME, $this->var_name);
+                    case VAR_NAME:
+                        $com->setParams(VAR_NAME, $this->var_name);
                         break;
-                    case Constant::COMMENT_TEXT:
-                        $com->setParams(Constant::COMMENT_TEXT, $this->comment_text);
+                    case COMMENT_TEXT:
+                        $com->setParams(COMMENT_TEXT, $this->comment_text);
                         break;
-                    case Constant::COMMENT_VAR_TYPE:
-                        $com->setParams(Constant::COMMENT_VAR_TYPE, $this->comment_var_type);
+                    case COMMENT_VAR_TYPE:
+                        $com->setParams(COMMENT_VAR_TYPE, $this->comment_var_type);
                         break;
                 }
             }
@@ -138,7 +138,7 @@ class Application
     {
         $n = '';
         switch ($mode) {
-            case Constant::CLASS_MODE_UCFIRST:
+            case CLASS_MODE_UCFIRST:
                 $words = explode('_', $src_name);
                 foreach ($words as $w) {
                     $n .= ucfirst($w);

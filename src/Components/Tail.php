@@ -6,7 +6,7 @@ use Jackdou\PhpModelGenerator\Interfaces\Components;
 
 class Tail implements Components
 {
-    public function setParams(int $type, $args)
+    public function setParams(int $type, string $arg)
     {
     }
 
@@ -17,10 +17,7 @@ class Tail implements Components
 
     public function gender(): string
     {
-        return <<<EOF
-
-}
-
-EOF;
+        $tpl = SRC_PATH . '/template/TailTemplate.tpl';
+        return file_get_contents($tpl);
     }
 }
